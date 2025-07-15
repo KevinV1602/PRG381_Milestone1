@@ -52,6 +52,8 @@
             </p>
 
             <hr class="separator"> <%-- Visual separator for main action --%>
+
+
     </main>
 
     <footer class="main-footer">
