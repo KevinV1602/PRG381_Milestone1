@@ -53,30 +53,8 @@
 
             <hr class="separator"> <%-- Visual separator for main action --%>
 
-            <%-- Main "Book a Session" Section --%>
-            <div class="dashboard-main-action">
-                <h2>Ready to Focus on Your Well-being?</h2>
-                <p>Book a session with one of our wellness professionals or explore available workshops.</p>
-                <a href="bookSession.jsp" class="button-big book-session-button">
-                    <img src="images/makeBooking.png" alt="Book Icon" class="icon"> Book a Session Now
-                </a>
-            </div>
 
-            <hr class="separator"> <%-- Visual separator for quick actions --%>
-
-            <%-- Other Quick Actions Section --%>
-            <div class="dashboard-info-section">
-                <h2>My Wellness Journey</h2>
-                <p>Quick access to other important areas:</p>
-                <ul>
-                    <li><a href="appointments.jsp" class="quick-link"><img src="images/appointment.png" alt="Appointments Icon" class="icon"> View My Appointments </a></li>
-                    <li><a href="resources.jsp" class="quick-link"><img src="images/resources.png" alt="Resources Icon" class="icon"> Access Resources </a></li>
-                    <li><a href="submitFeedback.jsp" class="quick-link"><img src="images/feedback.png" alt="Feedback Icon" class="icon"> Submit Feedback </a></li>
-                </ul>
-            </div>
-        </div>
     </main>
-
     <footer class="main-footer">
         <div class="footer-content">
             <p>&copy; 2025 Belgium Campus. All rights reserved.</p>
