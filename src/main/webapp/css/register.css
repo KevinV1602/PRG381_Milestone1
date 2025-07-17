@@ -1,300 +1,81 @@
-        :root {
-            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            --glass-bg: rgba(255, 255, 255, 0.15);
-            --glass-border: rgba(255, 255, 255, 0.2);
-            --text-primary: #333;
-            --text-secondary: #666;
-            --error-color: #ff6b6b;
-            --success-color: #51cf66;
-        }
+/* Validation Styles */
+.error {
+    border-color: var(--error-color) !important;
+    background: rgba(255, 107, 107, 0.1) !important;
+    animation: shake 0.5s ease-in-out;
+}
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+.validation-message {
+    color: var(--error-color);
+    font-size: 0.8rem;
+    margin-top: 0.5rem;
+    padding-left: 0.5rem;
+    display: block;
+}
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: var(--primary-gradient);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            overflow-x: hidden;
-            padding: 1rem;
-        }
+.alert {
+    padding: 1rem;
+    border-radius: 12px;
+    margin-bottom: 1.5rem;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    animation: slideIn 0.5s ease-out;
+    backdrop-filter: blur(10px);
+}
 
-        body::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
-                        radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
-                        radial-gradient(circle at 40% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
-            animation: float 20s ease-in-out infinite;
-        }
+.alert-danger {
+    background: rgba(255, 107, 107, 0.2);
+    border: 1px solid var(--error-color);
+    color: #fff;
+}
 
-        @keyframes float {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(2deg); }
-        }
+.alert-success {
+    background: rgba(29, 209, 161, 0.2);
+    border: 1px solid var(--success-color);
+    color: #fff;
+}
 
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0%);
-            }
-        }
+.alert i {
+    margin-right: 0.75rem;
+    font-size: 1.2rem;
+}
 
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-5px); }
-            75% { transform: translateX(5px); }
-        }
-         
-        .registration-container {
-            
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            padding: 2.5rem;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
-            width: 100%;
-            max-width: 550px;
-            position: relative;
-            z-index: 2;
-            animation: slideIn 0.8s ease-out;
-            max-height: 90vh;
-            overflow-y: auto;
-        }
+/* Password Strength Meter */
+.password-strength {
+    margin-top: 0.5rem;
+}
 
-        .header {
-            text-align: center;
-            margin-bottom: 2.5rem;
-            padding-bottom: 1.5rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
+.strength-meter {
+    height: 5px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+    overflow: hidden;
+    margin-bottom: 0.3rem;
+}
 
-        .header h1 {
-            color: white;
-            font-size: 2.2rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
+.strength-bar {
+    height: 100%;
+    width: 0;
+    border-radius: 3px;
+    transition: all 0.3s ease;
+}
 
-        .header p {
-            color: rgba(255, 255, 255, 0.8);
-            font-size: 1.1rem;
-            font-weight: 400;
-        }
+.strength-text {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
 
-        .wellness-icon {
-            width: 70px;
-            height: 70px;
-            background: var(--secondary-gradient);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 1.5rem;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            animation: pulse 2s infinite;
-        }
-
-        .wellness-icon i {
-            color: white;
-            font-size: 2.5rem;
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-
-        .form-group {
-            position: relative;
-            margin-bottom: 1.5rem;
-        }
-
-        .form-group label {
-            display: block;
-            color: rgba(255, 255, 255, 0.9);
-            font-size: 0.9rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            text-transform: capitalize;
-            letter-spacing: 0.5px;
-        }
-
-        .form-group input {
-            background: rgba(255, 255, 255, 0.15);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 12px;
-            padding: 1rem 1rem 1rem 3rem;
-            color: white;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
-            width: 100%;
-        }
-
-        .form-group input:focus {
-            background: rgba(255, 255, 255, 0.25);
-            border-color: rgba(255, 255, 255, 0.5);
-            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1);
-            color: white;
-            outline: none;
-        }
-
-        .form-group input::placeholder {
-            color: rgba(255, 255, 255, 0.6);
-        }
-
-        .form-group input.error {
-            border-color: var(--error-color);
-            background: rgba(255, 107, 107, 0.1);
-            animation: shake 0.5s ease-in-out;
-        }
-
-        .form-group input.success {
-            border-color: var(--success-color);
-            background: rgba(81, 207, 102, 0.1);
-        }
-
-        .input-icon {
-            position: absolute;
-            left: 1rem;
-            top: 50%;
-            transform: translateY(-50%);
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 1.1rem;
-            z-index: 1;
-            margin-top: 0.75rem;
-        }
-
-        .password-toggle {
-            position: absolute;
-            right: 1rem;
-            top: 50%;
-            transform: translateY(-50%);
-            color: rgba(255, 255, 255, 0.7);
-            cursor: pointer;
-            font-size: 1rem;
-            z-index: 2;
-            margin-top: 0.75rem;
-            transition: color 0.3s ease;
-        }
-
-        .password-toggle:hover {
-            color: white;
-        }
-
-        .submit-btn {
-            width: 100%;
-            padding: 1.25rem;
-            background: var(--secondary-gradient);
-            border: none;
-            border-radius: 12px;
-            color: white;
-            font-size: 1.1rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            margin-top: 1rem;
-        }
-
-        .submit-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-        }
-
-        .submit-btn:active {
-            transform: translateY(0);
-        }
-
-        .submit-btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .login-link {
-            text-align: center;
-            margin-top: 1.5rem;
-            padding-top: 1.5rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            color: rgba(255, 255, 255, 0.8);
-            font-size: 0.95rem;
-        }
-
-        .login-link a {
-            color: white;
-            text-decoration: none;
-            font-weight: 600;
-            transition: color 0.3s ease;
-        }
-
-        .login-link a:hover {
-            color: #f093fb;
-        }
-
-        @media (max-width: 768px) {
-            .registration-container {
-                margin: 0.5rem;
-                padding: 2rem;
-            }
-
-            .header h1 {
-                font-size: 1.8rem;
-            }
-
-            .wellness-icon {
-                width: 60px;
-                height: 60px;
-            }
-
-            .wellness-icon i {
-                font-size: 2rem;
-            }
-
-            .form-group input {
-                padding: 0.9rem 0.9rem 0.9rem 2.5rem;
-            }
-
-            .input-icon {
-                left: 0.8rem;
-            }
-
-            .password-toggle {
-                right: 0.8rem;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .registration-container {
-                padding: 1.5rem;
-            }
-
-            .header h1 {
-                font-size: 1.6rem;
-            }
-
-            .form-group input {
-                padding: 0.8rem 0.8rem 0.8rem 2.2rem;
-            }
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .validation-message {
+        font-size: 0.7rem;
+    }
+    
+    .alert {
+        padding: 0.8rem;
+        font-size: 0.85rem;
+    }
+}
