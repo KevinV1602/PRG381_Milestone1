@@ -1023,6 +1023,9 @@
                     </Property>
                     <Property name="text" type="java.lang.String" value="View All"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnViewAllActionPerformed"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JTextField" name="txtSearchbyID">
                 </Component>

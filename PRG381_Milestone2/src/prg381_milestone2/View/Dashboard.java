@@ -159,7 +159,7 @@ public class Dashboard extends javax.swing.JFrame {
         btnViewAll.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
         loadAllFeedback();
-    }
+    }  
 });
         btnSearchAction.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -191,17 +191,23 @@ public class Dashboard extends javax.swing.JFrame {
 });
         
         btnEditFeedback.addActionListener(new java.awt.event.ActionListener() {
-        public void actionPerformed(java.awt.event.ActionEvent evt) {
+    public void actionPerformed(java.awt.event.ActionEvent evt) {
         int selectedRow = tblStudents.getSelectedRow();
         if (selectedRow == -1) {
             JOptionPane.showMessageDialog(null, "Please select a row to edit.");
             return;
         }
 
-        int id = (int) tblStudents.getValueAt(selectedRow, 0);
+        // Get updated values from input fields
         String studentId = txtStudentID.getText().trim();
         String counselor = cmbCounselor1.getSelectedItem().toString();
-        int rating = (int) spnRating.getValue();
+        int rating;
+        try {
+            rating = Integer.parseInt(spnRating.getValue().toString());
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(null, "Invalid rating. Please enter a number.");
+            return;
+        }
         String comments = txtComments.getText().trim();
 
         if (studentId.isEmpty() || comments.isEmpty()) {
@@ -211,15 +217,27 @@ public class Dashboard extends javax.swing.JFrame {
 
         try {
             FeedbackController controller = new FeedbackController();
-            controller.updateFeedback(new Feedback(studentId, counselor, rating, comments));
-            JOptionPane.showMessageDialog(null, "Feedback updated successfully.");
-            loadAllFeedback();
+            
+            // Create a feedback object with updated data
+            Feedback updatedFeedback = new Feedback(studentId, counselor, rating, comments);
+            
+            // Call update function in the controller
+            boolean success = controller.updateFeedback(updatedFeedback);
+
+            if (success) {
+                JOptionPane.showMessageDialog(null, "Feedback updated successfully.");
+                loadAllFeedback(); // Refresh the table
+            } else {
+                JOptionPane.showMessageDialog(null, "No matching feedback record to update.");
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Update failed.");
+            JOptionPane.showMessageDialog(null, "Update failed: " + e.getMessage());
         }
     }
 });
+
         
         btnDeleteFeedback.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -705,7 +723,7 @@ public class Dashboard extends javax.swing.JFrame {
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(271, Short.MAX_VALUE))
+                .addContainerGap(133, Short.MAX_VALUE))
         );
 
         jTabbedPane2.addTab("Appointment Management", jPanel1);
@@ -720,6 +738,7 @@ public class Dashboard extends javax.swing.JFrame {
 
         jLabel22.setText("Availibility:");
 
+        cmbCounselorAvailability.setBackground(new java.awt.Color(255, 168, 139));
         cmbCounselorAvailability.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         btnAddCounselor.setBackground(new java.awt.Color(255, 168, 139));
@@ -816,16 +835,16 @@ public class Dashboard extends javax.swing.JFrame {
         jPanel10Layout.setHorizontalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel10Layout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 1007, Short.MAX_VALUE)
-                .addContainerGap())
+                .addContainerGap()
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 707, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(318, Short.MAX_VALUE))
         );
         jPanel10Layout.setVerticalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel10Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(48, Short.MAX_VALUE))
+                .addGap(16, 16, 16)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(60, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -846,7 +865,7 @@ public class Dashboard extends javax.swing.JFrame {
                 .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(176, Short.MAX_VALUE))
+                .addContainerGap(38, Short.MAX_VALUE))
         );
 
         jTabbedPane2.addTab("Counselor Management", jPanel2);
@@ -864,6 +883,7 @@ public class Dashboard extends javax.swing.JFrame {
 
         txtStudentID.setActionCommand("<Not Set>");
 
+        cmbCounselor1.setBackground(new java.awt.Color(255, 168, 139));
         cmbCounselor1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jLabel13.setText("Rating:");
@@ -976,6 +996,11 @@ public class Dashboard extends javax.swing.JFrame {
 
         btnViewAll.setBackground(new java.awt.Color(255, 168, 139));
         btnViewAll.setText("View All");
+        btnViewAll.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnViewAllActionPerformed(evt);
+            }
+        });
 
         tblStudents.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -1020,8 +1045,8 @@ public class Dashboard extends javax.swing.JFrame {
                                 .addComponent(btnDeleteFeedback, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(jPanel8Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 1323, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(144, Short.MAX_VALUE))
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 1033, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1039,8 +1064,8 @@ public class Dashboard extends javax.swing.JFrame {
                         .addComponent(jLabel19)
                         .addComponent(txtSearchbyID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(110, Short.MAX_VALUE))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(51, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -1053,7 +1078,7 @@ public class Dashboard extends javax.swing.JFrame {
                     .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 31, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -1061,8 +1086,9 @@ public class Dashboard extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(35, 35, 35)
-                .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
+                .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(64, 64, 64))
         );
 
         jTabbedPane2.addTab("Feedback Management", jPanel3);
@@ -1105,8 +1131,8 @@ public class Dashboard extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 742, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 604, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(144, Short.MAX_VALUE))
         );
 
         pack();
@@ -1235,6 +1261,10 @@ public class Dashboard extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_btnDeleteCounselorActionPerformed
+
+    private void btnViewAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewAllActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnViewAllActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {
     String studentId = txtStudentId.getText().trim();
