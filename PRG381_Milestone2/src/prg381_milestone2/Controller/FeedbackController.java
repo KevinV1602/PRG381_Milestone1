@@ -74,16 +74,25 @@ public class FeedbackController {
         return feedbackList;
     }
 
-    public void updateFeedback(Feedback fb) throws SQLException {
-        String sql = "UPDATE FEEDBACK SET COUNSELOR=?, RATING=?, COMMENTS=? WHERE STUDENT_ID=?";
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, fb.getCounselor());
-            ps.setInt(2, fb.getRating());
-            ps.setString(3, fb.getComments());
-            ps.setString(4, fb.getStudentId());
-            ps.executeUpdate();
+    public boolean updateFeedback(Feedback feedback) {
+        String sql = "UPDATE feedback SET counselor=?, rating=?, comments=? WHERE student_id=?";
+        
+        try (
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, feedback.getCounselor());
+            pstmt.setInt(2, feedback.getRating());
+            pstmt.setString(3, feedback.getComments());
+            pstmt.setString(4, feedback.getStudentId());
+
+            int affected = pstmt.executeUpdate();
+            return affected > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
         }
     }
+
 
     public void deleteFeedback(String studentId) throws SQLException {
         String sql = "DELETE FROM FEEDBACK WHERE STUDENT_ID = ?";
